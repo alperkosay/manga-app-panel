@@ -362,46 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiMangaManga extends Schema.CollectionType {
-  collectionName: 'mangas';
-  info: {
-    singularName: 'manga';
-    pluralName: 'mangas';
-    displayName: 'Manga';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String & Attribute.Required & Attribute.Unique;
-    slug: Attribute.UID<'api::manga.manga', 'title'> & Attribute.Required;
-    status: Attribute.Enumeration<
-      ['Yay\u0131nlanmad\u0131', 'Devam Ediyor', 'Tamamland\u0131']
-    > &
-      Attribute.Required &
-      Attribute.DefaultTo<'Devam Ediyor'>;
-    otherNames: Attribute.Text;
-    year: Attribute.Date & Attribute.Required;
-    cover: Attribute.Media & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::manga.manga',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::manga.manga',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -828,6 +788,139 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiGenreGenre extends Schema.CollectionType {
+  collectionName: 'genres';
+  info: {
+    singularName: 'genre';
+    pluralName: 'genres';
+    displayName: 'Genre';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    slug: Attribute.UID<'api::genre.genre', 'title'>;
+    manga: Attribute.Relation<
+      'api::genre.genre',
+      'manyToOne',
+      'api::manga.manga'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::genre.genre',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::genre.genre',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMangaManga extends Schema.CollectionType {
+  collectionName: 'mangas';
+  info: {
+    singularName: 'manga';
+    pluralName: 'mangas';
+    displayName: 'Manga';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required & Attribute.Unique;
+    slug: Attribute.UID<'api::manga.manga', 'title'> & Attribute.Required;
+    status: Attribute.Enumeration<
+      ['Yay\u0131nlanmad\u0131', 'Devam Ediyor', 'Tamamland\u0131']
+    > &
+      Attribute.Required &
+      Attribute.DefaultTo<'Devam Ediyor'>;
+    otherNames: Attribute.Text;
+    year: Attribute.Date & Attribute.Required;
+    cover: Attribute.Media & Attribute.Required;
+    manga_chapters: Attribute.Relation<
+      'api::manga.manga',
+      'oneToMany',
+      'api::manga-chapter.manga-chapter'
+    >;
+    genres: Attribute.Relation<
+      'api::manga.manga',
+      'oneToMany',
+      'api::genre.genre'
+    >;
+    description: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::manga.manga',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::manga.manga',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMangaChapterMangaChapter extends Schema.CollectionType {
+  collectionName: 'manga_chapters';
+  info: {
+    singularName: 'manga-chapter';
+    pluralName: 'manga-chapters';
+    displayName: 'Manga Chapter';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    chapter: Attribute.Integer &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      > &
+      Attribute.DefaultTo<1>;
+    chapterImages: Attribute.Media & Attribute.Required;
+    manga: Attribute.Relation<
+      'api::manga-chapter.manga-chapter',
+      'manyToOne',
+      'api::manga.manga'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::manga-chapter.manga-chapter',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::manga-chapter.manga-chapter',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -838,7 +931,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::manga.manga': ApiMangaManga;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -847,6 +939,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::genre.genre': ApiGenreGenre;
+      'api::manga.manga': ApiMangaManga;
+      'api::manga-chapter.manga-chapter': ApiMangaChapterMangaChapter;
     }
   }
 }

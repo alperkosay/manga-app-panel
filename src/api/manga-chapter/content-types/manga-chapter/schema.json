@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "manga_chapters",
+  "info": {
+    "singularName": "manga-chapter",
+    "pluralName": "manga-chapters",
+    "displayName": "Manga Chapter"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "chapter": {
+      "type": "integer",
+      "default": 1,
+      "required": true,
+      "min": 1,
+      "unique": true
+    },
+    "chapterImages": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    },
+    "manga": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::manga.manga",
+      "inversedBy": "manga_chapters"
+    }
+  }
+}
