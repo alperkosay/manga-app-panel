@@ -4,7 +4,8 @@
   "info": {
     "singularName": "manga-chapter",
     "pluralName": "manga-chapters",
-    "displayName": "Manga Chapter"
+    "displayName": "Manga Chapter",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -23,18 +24,23 @@
       "unique": true
     },
     "chapterImages": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": true,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "manga": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::manga.manga",
       "inversedBy": "manga_chapters"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
     }
   }
 }
