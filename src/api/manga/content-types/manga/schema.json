@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mangas",
+  "info": {
+    "singularName": "manga",
+    "pluralName": "mangas",
+    "displayName": "Manga",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Yayınlanmadı",
+        "Devam Ediyor",
+        "Tamamlandı"
+      ],
+      "default": "Devam Ediyor",
+      "required": true
+    },
+    "otherNames": {
+      "type": "text"
+    },
+    "year": {
+      "type": "date",
+      "required": true
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}
