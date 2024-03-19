@@ -9,21 +9,21 @@ export interface Genre {
   attributes: {
     createdAt: Date;    updatedAt: Date;    publishedAt?: Date;    title?: string;
     slug?: string;
-    manga?: { data: Manga };
+    manga?: { data: Manga[] };
   };
 }
 export interface Genre_Plain {
   id: number;
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  title?: string;
   slug?: string;
-  manga?: Manga_Plain;
+  manga?: Manga_Plain[];
 }
 
 export interface Genre_NoRelations {
   id: number;
   createdAt: Date;  updatedAt: Date;  publishedAt?: Date;  title?: string;
   slug?: string;
-  manga?: number;
+  manga?: number[];
 }
 
 export interface Genre_AdminPanelLifeCycle {

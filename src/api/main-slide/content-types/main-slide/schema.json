@@ -1,0 +1,20 @@
+{
+  "kind": "collectionType",
+  "collectionName": "main_slides",
+  "info": {
+    "singularName": "main-slide",
+    "pluralName": "main-slides",
+    "displayName": "Main Slide"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "manga": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::manga.manga"
+    }
+  }
+}

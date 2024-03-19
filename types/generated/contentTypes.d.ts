@@ -794,6 +794,7 @@ export interface ApiGenreGenre extends Schema.CollectionType {
     singularName: 'genre';
     pluralName: 'genres';
     displayName: 'Genre';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -803,7 +804,7 @@ export interface ApiGenreGenre extends Schema.CollectionType {
     slug: Attribute.UID<'api::genre.genre', 'title'>;
     manga: Attribute.Relation<
       'api::genre.genre',
-      'manyToOne',
+      'manyToMany',
       'api::manga.manga'
     >;
     createdAt: Attribute.DateTime;
@@ -817,6 +818,40 @@ export interface ApiGenreGenre extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::genre.genre',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMainSlideMainSlide extends Schema.CollectionType {
+  collectionName: 'main_slides';
+  info: {
+    singularName: 'main-slide';
+    pluralName: 'main-slides';
+    displayName: 'Main Slide';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    manga: Attribute.Relation<
+      'api::main-slide.main-slide',
+      'oneToOne',
+      'api::manga.manga'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::main-slide.main-slide',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::main-slide.main-slide',
       'oneToOne',
       'admin::user'
     > &
@@ -851,12 +886,12 @@ export interface ApiMangaManga extends Schema.CollectionType {
       'oneToMany',
       'api::manga-chapter.manga-chapter'
     >;
+    description: Attribute.Text;
     genres: Attribute.Relation<
       'api::manga.manga',
-      'oneToMany',
+      'manyToMany',
       'api::genre.genre'
     >;
-    description: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -890,7 +925,6 @@ export interface ApiMangaChapterMangaChapter extends Schema.CollectionType {
     title: Attribute.String & Attribute.Required;
     chapter: Attribute.Integer &
       Attribute.Required &
-      Attribute.Unique &
       Attribute.SetMinMax<
         {
           min: 1;
@@ -943,6 +977,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::genre.genre': ApiGenreGenre;
+      'api::main-slide.main-slide': ApiMainSlideMainSlide;
       'api::manga.manga': ApiMangaManga;
       'api::manga-chapter.manga-chapter': ApiMangaChapterMangaChapter;
     }

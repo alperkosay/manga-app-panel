@@ -22,8 +22,8 @@ export interface Manga {
     year: Date;
     cover: { data: Media };
     manga_chapters: { data: MangaChapter[] };
-    genres: { data: Genre[] };
     description?: string;
+    genres?: { data: Genre[] };
   };
 }
 export interface Manga_Plain {
@@ -35,8 +35,8 @@ export interface Manga_Plain {
   year: Date;
   cover: Media;
   manga_chapters: MangaChapter_Plain[];
-  genres: Genre_Plain[];
   description?: string;
+  genres?: Genre_Plain[];
 }
 
 export interface Manga_NoRelations {
@@ -48,8 +48,8 @@ export interface Manga_NoRelations {
   year: Date;
   cover: number;
   manga_chapters: number[];
-  genres: number[];
   description?: string;
+  genres?: number[];
 }
 
 export interface Manga_AdminPanelLifeCycle {
@@ -61,6 +61,6 @@ export interface Manga_AdminPanelLifeCycle {
   year: Date;
   cover: AdminPanelRelationPropertyModification<Media>;
   manga_chapters: AdminPanelRelationPropertyModification<MangaChapter_Plain>;
-  genres: AdminPanelRelationPropertyModification<Genre_Plain>;
   description?: string;
+  genres?: AdminPanelRelationPropertyModification<Genre_Plain>;
 }
